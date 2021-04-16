@@ -1,0 +1,8 @@
+*.code-workspace
+.vscode
+
+include/SFML
+lib
+build
+*.dll
+*.exe
