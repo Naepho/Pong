@@ -123,11 +123,11 @@ void Game::update(sf::Time deltaTime)
     else if (mAI.getPosition().y + mAI.getSize().y > mWindow.getSize().y)
     {
         mAI.setPosition(sf::Vector2f(mAI.getPosition().x, mWindow.getSize().y - mAI.getSize().y));
+    }
 
-        if (mBall.getGlobalBounds().intersects(mPlayer.getGlobalBounds()) || mBall.getGlobalBounds().intersects(mAI.getGlobalBounds()))
-        {
-            mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
-        }
+    if (mBall.getGlobalBounds().intersects(mPlayer.getGlobalBounds()) || mBall.getGlobalBounds().intersects(mAI.getGlobalBounds()))
+    {
+        mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
     }
 }
 
