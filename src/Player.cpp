@@ -30,6 +30,16 @@ sf::Vector2f Player::getVelocity() const
     return mVelocity;
 }
 
+sf::FloatRect Player::getGlobalBounds()
+{
+    sf::FloatRect bounds = mRect.getLocalBounds();
+
+    bounds.left += getPosition().x;
+    bounds.top += getPosition().y;
+
+    return bounds;
+}
+
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     states.transform *= getTransform();

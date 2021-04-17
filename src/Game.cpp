@@ -114,6 +114,10 @@ void Game::update(sf::Time deltaTime)
     {
         mBall.setVelocity(mBall.getVelocity().x, mBall.getVelocity().y * -1.f);
     }
+    if (mBall.getGlobalBounds().intersects(mPlayer.getGlobalBounds()) || mBall.getGlobalBounds().intersects(mAI.getGlobalBounds()))
+    {
+        mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
+    }
 }
 
 void Game::render()

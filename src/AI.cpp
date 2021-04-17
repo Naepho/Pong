@@ -30,6 +30,16 @@ sf::Vector2f Ai::getVelocity() const
     return mVelocity;
 }
 
+sf::FloatRect Ai::getGlobalBounds()
+{
+    sf::FloatRect bounds = mRect.getLocalBounds();
+
+    bounds.left += getPosition().x;
+    bounds.top += getPosition().y;
+
+    return bounds;
+}
+
 void Ai::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     states.transform *= getTransform();

@@ -16,6 +16,7 @@ public:
     sf::Vector2f getVelocity() const;
 
     float getSize() const;
+    sf::FloatRect getGlobalBounds() const;
 
 private:
     void draw(sf::RenderTarget &target, sf::RenderStates states) const;
