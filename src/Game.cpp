@@ -1,5 +1,4 @@
 #include <Game.hpp>
-#include <iostream>
 #include <stdlib.h>
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
@@ -18,7 +17,7 @@ Game::Game() : mWindow(sf::VideoMode(640, 480), "Pong", sf::Style::Close | sf::S
     mLine[1] = sf::Vertex(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y));
 
     // algorithm for random ball velocity
-    mBall.setVelocity(sf::Vector2f((rand() % 100) / 100.f, (rand() % 100) / 100.f));
+    mBall.setVelocity(sf::Vector2f((rand() % 80 + 60) / 100.f, (rand() % 80 + 60) / 100.f));
 
     int randBallVelocity = rand() % 100 + 1;
     if (randBallVelocity >= 25 && randBallVelocity < 50)
@@ -124,6 +123,11 @@ void Game::update(sf::Time deltaTime)
     else if (mAI.getPosition().y + mAI.getSize().y > mWindow.getSize().y)
     {
         mAI.setPosition(sf::Vector2f(mAI.getPosition().x, mWindow.getSize().y - mAI.getSize().y));
+
+        if (mBall.getGlobalBounds().intersects(mPlayer.getGlobalBounds()) || mBall.getGlobalBounds().intersects(mAI.getGlobalBounds()))
+        {
+            mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
+        }
     }
 }
 
