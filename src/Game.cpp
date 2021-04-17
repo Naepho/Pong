@@ -1,9 +1,33 @@
 #include <Game.hpp>
+#include <iostream>
+#include <stdlib.h>
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
-Game::Game() : mWindow(sf::VideoMode(640, 480), "Pong", sf::Style::Close | sf::Style::Titlebar)
+Game::Game() : mWindow(sf::VideoMode(640, 480), "Pong", sf::Style::Close | sf::Style::Titlebar), mPlayer(sf::Vector2f(20, 60)), mAI(sf::Vector2f(20, 60)), mBall(7.5f)
 {
+    mPlayer.setPosition(sf::Vector2f(10, mWindow.getSize().y / 2 - 60 / 2));
+    mAI.setPosition(sf::Vector2f(mWindow.getSize().x - 10 - 20, mWindow.getSize().y / 2 - 60 / 2));
+    mBall.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mBall.getSize(), mWindow.getSize().y / 2 - mBall.getSize()));
+    mIsMovingUp = false;
+    mIsMovingDown = false;
+
+    // algorithm for random ball velocity
+    mBall.setVelocity(sf::Vector2f((rand() % 100) / 100.f, (rand() % 100) / 100.f));
+
+    int randBallVelocity = rand() % 100 + 1;
+    if (randBallVelocity >= 25 && randBallVelocity < 50)
+    {
+        mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
+    }
+    else if (randBallVelocity >= 50 && randBallVelocity < 75)
+    {
+        mBall.setVelocity(mBall.getVelocity().x, mBall.getVelocity().y * -1.f);
+    }
+    else if (randBallVelocity >= 75)
+    {
+        mBall.setVelocity(mBall.getVelocity() * -1.f);
+    }
 }
 
 Game::~Game()
@@ -56,12 +80,46 @@ void Game::processEvents()
 
 void Game::update(sf::Time deltaTime)
 {
+    sf::Vector2f velocity(0.f, 0.f);
+    if (mIsMovingUp)
+    {
+        velocity.y -= 1.f;
+    }
+    if (mIsMovingDown)
+    {
+        velocity.y += 1.f;
+    }
+
+    mPlayer.setVelocity(velocity);
+    mPlayer.update(deltaTime);
+    if (mPlayer.getPosition().y < 0)
+    {
+        mPlayer.setPosition(sf::Vector2f(mPlayer.getPosition().x, 0));
+    }
+    else if (mPlayer.getPosition().y + mPlayer.getSize().y > mWindow.getSize().y)
+    {
+        mPlayer.setPosition(sf::Vector2f(mPlayer.getPosition().x, mWindow.getSize().y - mPlayer.getSize().y));
+    }
+
+    mBall.update(deltaTime);
+    if (mBall.getPosition().x < 0 || mBall.getPosition().x > mWindow.getSize().x - mBall.getSize() * 2)
+    {
+        mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
+    }
+    if (mBall.getPosition().y < 0 || mBall.getPosition().y > mWindow.getSize().y - mBall.getSize() * 2)
+    {
+        mBall.setVelocity(mBall.getVelocity().x, mBall.getVelocity().y * -1.f);
+    }
 }
 
 void Game::render()
 {
     mWindow.clear();
     mWindow.setView(mWindow.getDefaultView());
+
+    mWindow.draw(mPlayer);
+    mWindow.draw(mAI);
+    mWindow.draw(mBall);
 
     mWindow.display();
 }
@@ -74,6 +132,14 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
     {
     case sf::Keyboard::Escape:
         mWindow.close();
+        break;
+
+    case sf::Keyboard::Up:
+        mIsMovingUp = isPressed;
+        break;
+
+    case sf::Keyboard::Down:
+        mIsMovingDown = isPressed;
         break;
 
     default:

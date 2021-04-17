@@ -2,6 +2,9 @@
 #define GAME
 
 #include <SFML/Graphics.hpp>
+#include <Player.hpp>
+#include <AI.hpp>
+#include <Ball.hpp>
 
 class Game
 {
@@ -21,6 +24,12 @@ private:
 private:
     static const sf::Time TimePerFrame;
     sf::RenderWindow mWindow;
+    Player mPlayer;
+    Ai mAI;
+    Ball mBall;
+
+    bool mIsMovingUp;
+    bool mIsMovingDown;
 };
 
 #endif
