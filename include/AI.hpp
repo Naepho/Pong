@@ -10,7 +10,7 @@ public:
     Ai(sf::Vector2f rectSize);
     ~Ai();
 
-    void update(sf::Time dt);
+    void update(sf::Time dt, sf::Vector2f ballPos, sf::Vector2f winSize);
 
     void setVelocity(sf::Vector2f velocity);
     void setVelocity(float vx, float vy);

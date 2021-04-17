@@ -115,6 +115,16 @@ void Game::update(sf::Time deltaTime)
     {
         mBall.setVelocity(mBall.getVelocity().x, mBall.getVelocity().y * -1.f);
     }
+
+    mAI.update(deltaTime, sf::Vector2f(mBall.getPosition().x + mBall.getSize(), mBall.getPosition().y + mBall.getSize()), sf::Vector2f(mWindow.getSize().x, mWindow.getSize().y));
+    if (mAI.getPosition().y < 0)
+    {
+        mAI.setPosition(sf::Vector2f(mAI.getPosition().x, 0));
+    }
+    else if (mAI.getPosition().y + mAI.getSize().y > mWindow.getSize().y)
+    {
+        mAI.setPosition(sf::Vector2f(mAI.getPosition().x, mWindow.getSize().y - mAI.getSize().y));
+    }
 }
 
 void Game::render()

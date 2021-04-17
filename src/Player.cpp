@@ -3,7 +3,7 @@
 Player::Player(sf::Vector2f rectSize) : mVelocity(0.f, 0.f), mRect(rectSize), mRectSize(rectSize)
 {
     mRect.setFillColor(sf::Color::White);
-    mSpeed = 150;
+    mSpeed = 175;
 }
 
 Player::~Player()
