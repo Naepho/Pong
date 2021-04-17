@@ -4,13 +4,18 @@
 
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
-Game::Game() : mWindow(sf::VideoMode(640, 480), "Pong", sf::Style::Close | sf::Style::Titlebar), mPlayer(sf::Vector2f(20, 60)), mAI(sf::Vector2f(20, 60)), mBall(7.5f)
+Game::Game() : mWindow(sf::VideoMode(640, 480), "Pong", sf::Style::Close | sf::Style::Titlebar),
+               mPlayer(sf::Vector2f(20, 60)), mAI(sf::Vector2f(20, 60)), mBall(7.5f), mScore("minBold.otf", 32)
 {
     mPlayer.setPosition(sf::Vector2f(10, mWindow.getSize().y / 2 - 60 / 2));
     mAI.setPosition(sf::Vector2f(mWindow.getSize().x - 10 - 20, mWindow.getSize().y / 2 - 60 / 2));
     mBall.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mBall.getSize(), mWindow.getSize().y / 2 - mBall.getSize()));
+    mScore.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mScore.getLocalBounds().width / 2, 20));
     mIsMovingUp = false;
     mIsMovingDown = false;
+
+    mLine[0] = sf::Vertex(sf::Vector2f(mWindow.getSize().x / 2, 0));
+    mLine[1] = sf::Vertex(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y));
 
     // algorithm for random ball velocity
     mBall.setVelocity(sf::Vector2f((rand() % 100) / 100.f, (rand() % 100) / 100.f));
@@ -120,6 +125,8 @@ void Game::render()
     mWindow.draw(mPlayer);
     mWindow.draw(mAI);
     mWindow.draw(mBall);
+    mWindow.draw(mScore);
+    mWindow.draw(mLine, 2, sf::Lines);
 
     mWindow.display();
 }

@@ -5,6 +5,7 @@
 #include <Player.hpp>
 #include <AI.hpp>
 #include <Ball.hpp>
+#include <Score.hpp>
 
 class Game
 {
@@ -27,6 +28,8 @@ private:
     Player mPlayer;
     Ai mAI;
     Ball mBall;
+    Score mScore;
+    sf::Vertex mLine[2];
 
     bool mIsMovingUp;
     bool mIsMovingDown;
