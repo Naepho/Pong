@@ -4,20 +4,25 @@
 const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
 
 Game::Game() : mWindow(sf::VideoMode(640, 480), "Pong", sf::Style::Close | sf::Style::Titlebar),
-               mPlayer(sf::Vector2f(20, 60)), mAI(sf::Vector2f(20, 60)), mBall(7.5f), mScore("minBold.otf", 32)
+               mPlayer(sf::Vector2f(20, 60)), mAI(sf::Vector2f(20, 60)), mBall(7.5f), mScore("minBold.otf", 32),
+               mLose("minBold.otf", 48), mWin("minBold.otf", 48)
 {
     mPlayer.setPosition(sf::Vector2f(10, mWindow.getSize().y / 2 - 60 / 2));
     mAI.setPosition(sf::Vector2f(mWindow.getSize().x - 10 - 20, mWindow.getSize().y / 2 - 60 / 2));
     mBall.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mBall.getSize(), mWindow.getSize().y / 2 - mBall.getSize()));
     mScore.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mScore.getLocalBounds().width / 2, 20));
+    mLose.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mLose.getLocalBounds().width / 2, mWindow.getSize().y / 2 - mLose.getLocalBounds().height / 2));
+    mWin.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mLose.getLocalBounds().width / 2, mWindow.getSize().y / 2 - mLose.getLocalBounds().height / 2));
     mIsMovingUp = false;
     mIsMovingDown = false;
+    playerLose = false;
+    playerWin = false;
 
     mLine[0] = sf::Vertex(sf::Vector2f(mWindow.getSize().x / 2, 0));
     mLine[1] = sf::Vertex(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y));
 
     // algorithm for random ball velocity
-    mBall.setVelocity(sf::Vector2f((rand() % 80 + 60) / 100.f, (rand() % 80 + 60) / 100.f));
+    mBall.setVelocity(sf::Vector2f((rand() % 80 + 70) / 100.f, (rand() % 80 + 70) / 100.f));
 
     int randBallVelocity = rand() % 100 + 1;
     if (randBallVelocity >= 25 && randBallVelocity < 50)
@@ -152,18 +157,43 @@ void Game::update(sf::Time deltaTime)
             mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
         }
     }
+
+    // end of game
+    if (mBall.getGlobalBounds().intersects(sf::FloatRect(-10, -10, 12, mWindow.getSize().y)))
+    {
+        playerLose = true;
+    }
+
+    if (mBall.getGlobalBounds().intersects(sf::FloatRect(mWindow.getSize().x - 2, -10, mWindow.getSize().x + 10, mWindow.getSize().y)))
+    {
+        playerWin = true;
+    }
 }
 
 void Game::render()
 {
-    mWindow.clear();
-    mWindow.setView(mWindow.getDefaultView());
 
-    mWindow.draw(mPlayer);
-    mWindow.draw(mAI);
-    mWindow.draw(mBall);
-    mWindow.draw(mScore);
-    mWindow.draw(mLine, 2, sf::Lines);
+    if (!playerLose && !playerWin)
+    {
+        mWindow.clear();
+        mWindow.setView(mWindow.getDefaultView());
+
+        mWindow.draw(mPlayer);
+        mWindow.draw(mAI);
+        mWindow.draw(mBall);
+        mWindow.draw(mScore);
+        mWindow.draw(mLine, 2, sf::Lines);
+    }
+
+    if (playerLose)
+    {
+        mWindow.draw(mLose);
+    }
+
+    if (playerWin)
+    {
+        mWindow.draw(mWin);
+    }
 
     mWindow.display();
 }

@@ -6,6 +6,8 @@
 #include <AI.hpp>
 #include <Ball.hpp>
 #include <Score.hpp>
+#include <Lose.hpp>
+#include <Win.hpp>
 
 class Game
 {
@@ -29,10 +31,14 @@ private:
     Ai mAI;
     Ball mBall;
     Score mScore;
+    Lose mLose;
+    Win mWin;
     sf::Vertex mLine[2];
 
     bool mIsMovingUp;
     bool mIsMovingDown;
+    bool playerLose;
+    bool playerWin;
 };
 
 #endif

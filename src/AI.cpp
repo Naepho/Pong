@@ -3,7 +3,7 @@
 Ai::Ai(sf::Vector2f rectSize) : mVelocity(0.f, 0.f), mRect(rectSize), mRectSize(rectSize)
 {
     mRect.setFillColor(sf::Color::White);
-    mSpeed = 175;
+    mSpeed = 185;
 }
 
 Ai::~Ai()
