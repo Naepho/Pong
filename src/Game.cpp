@@ -131,22 +131,34 @@ void Game::update(sf::Time deltaTime)
     }
 
     // ball bouncing on player and AI
-    if (mBall.getGlobalBounds().intersects(mPlayer.getGlobalBounds()) || mBall.getGlobalBounds().intersects(mAI.getGlobalBounds()))
+    if (mBall.getGlobalBounds().intersects(mPlayer.getGlobalBounds()))
     {
+        mScore.update(1);
         if (mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + mPlayer.getSize().x / 2, mPlayer.getPosition().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + mPlayer.getSize().x / 2, mPlayer.getPosition().y + mPlayer.getSize().y)) ||
-            mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 2, mAI.getPosition().y)) ||
-            mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 2, mAI.getPosition().y + mAI.getSize().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + (mPlayer.getSize().x / 4) * 3, mPlayer.getPosition().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + (mPlayer.getSize().x / 4) * 3, mPlayer.getPosition().y + mPlayer.getSize().y)) ||
-            mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 4, mAI.getPosition().y)) ||
-            mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 4, mAI.getPosition().y + mAI.getSize().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + mPlayer.getSize().x, mPlayer.getPosition().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + mPlayer.getSize().x, mPlayer.getPosition().y + mPlayer.getSize().y)) ||
+            mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x, mPlayer.getPosition().y)) ||
+            mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x, mPlayer.getPosition().y + mPlayer.getSize().y)))
+        {
+            mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y * -1.f);
+        }
+        else
+        {
+            mBall.setVelocity(mBall.getVelocity().x * -1.f, mBall.getVelocity().y);
+        }
+    }
+
+    if (mBall.getGlobalBounds().intersects(mAI.getGlobalBounds()))
+    {
+        if (mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 2, mAI.getPosition().y)) ||
+            mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 2, mAI.getPosition().y + mAI.getSize().y)) ||
+            mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 4, mAI.getPosition().y)) ||
+            mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x / 4, mAI.getPosition().y + mAI.getSize().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x, mAI.getPosition().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x, mAI.getPosition().y + mAI.getSize().y)) ||
-            mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x, mPlayer.getPosition().y)) ||
-            mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x, mPlayer.getPosition().y + mPlayer.getSize().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x, mAI.getPosition().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mAI.getPosition().x + mAI.getSize().x, mAI.getPosition().y + mAI.getSize().y)))
         {

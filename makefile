@@ -1,5 +1,5 @@
 CXX      := g++
-CXXFLAGS := -Wall -Wextra -Werror # -mwindows
+CXXFLAGS := -Wall -Wextra -Werror
 LDFLAGS  := -L lib -lsfml-system -lsfml-window -lsfml-audio -lsfml-graphics -lsfml-network
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
@@ -36,7 +36,7 @@ build:
 debug: CXXFLAGS += -DDEBUG -g
 debug: all
 
-release: CXXFLAGS += -O2
+release: CXXFLAGS += -O2 -mwindows
 release: all
 
 clean:
