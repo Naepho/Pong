@@ -10,16 +10,17 @@ This tutorial explains how to compile the code on your local computer.
 2. Download SFML 2.5.1 for GCC 7.3.0 MinGW (SEH) - 64-bit, link [here](https://www.sfml-dev.org/download/sfml/2.5.1/).
 3. Create a lib folder at the root of the project and put the content of the archive's lib folder into the new one.
 4. Put the content of the archive's include folder into the project's one.
-5. Put the content of the archive's bin folder into the project's one.
-6. Install GNU make, update your path if needed, reboot.
-7. Type make into the terminal.
-8. Look into the bin folder !
+5. For the bin/release folder, put the openal32.dll and the sfml-\*-2.dll into the bin/release folder.
+6. For the bin/debug folder, put the openal32.dll and the sfml-\*-d-2.dll into the bin/debug folder.
+7. Install GNU make, update your path if needed, reboot.
+8. Type make release or make debug into the terminal.
+9. Look into the bin/release or the bin/debug folder !
 
 ## Linux
 
-1. Do the step 2 to 5 for Windows.
-2. Type make in the terminal.
-3. Look into the bin folder !
+1. Do the step 2 to 4 for Windows or use your package manager.
+2. Type make release or make debug into the terminal.
+3. Look into the bin/release or the bin/debug folder !
 
 ## MacOs
 

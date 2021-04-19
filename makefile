@@ -3,7 +3,7 @@ CXXFLAGS := -Wall -Wextra -Werror
 LDFLAGS  := -L lib -lsfml-system -lsfml-window -lsfml-audio -lsfml-graphics -lsfml-network
 BUILD    := ./build
 OBJ_DIR  := $(BUILD)/objects
-APP_DIR  := ./bin
+APP_DIR  := ./bin/release
 TARGET   := pong
 INCLUDE  := -I include
 SRC      :=                      \
@@ -34,6 +34,8 @@ build:
 	@if not exist "$(OBJ_DIR)" mkdir "$(OBJ_DIR)"
 
 debug: CXXFLAGS += -DDEBUG -g
+debug: LDFLAGS  := -L lib -lsfml-system-d -lsfml-window-d -lsfml-audio-d -lsfml-graphics-d -lsfml-network-d
+debug: APP_DIR  := ./bin/debug
 debug: all
 
 release: CXXFLAGS += -O2 -mwindows

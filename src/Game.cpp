@@ -22,7 +22,7 @@ Game::Game() : mWindow(sf::VideoMode(640, 480), "Pong", sf::Style::Close | sf::S
     mLine[1] = sf::Vertex(sf::Vector2f(mWindow.getSize().x / 2, mWindow.getSize().y));
 
     // algorithm for random ball velocity
-    mBall.setVelocity(sf::Vector2f((rand() % 80 + 70) / 100.f, (rand() % 80 + 70) / 100.f));
+    mBall.setVelocity(sf::Vector2f((rand() % 80 + 75) / 100.f, (rand() % 80 + 75) / 100.f));
 
     int randBallVelocity = rand() % 100 + 1;
     if (randBallVelocity >= 25 && randBallVelocity < 50)
@@ -134,6 +134,7 @@ void Game::update(sf::Time deltaTime)
     if (mBall.getGlobalBounds().intersects(mPlayer.getGlobalBounds()))
     {
         mScore.update(1);
+        mScore.setPosition(sf::Vector2f(mWindow.getSize().x / 2 - mScore.getLocalBounds().width / 2, 20));
         if (mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + mPlayer.getSize().x / 2, mPlayer.getPosition().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + mPlayer.getSize().x / 2, mPlayer.getPosition().y + mPlayer.getSize().y)) ||
             mBall.getGlobalBounds().contains(sf::Vector2f(mPlayer.getPosition().x + (mPlayer.getSize().x / 4) * 3, mPlayer.getPosition().y)) ||
